@@ -4,3 +4,5 @@ migrate:
 	@./manage.py migrate
 makemigrations:
 	@./manage.py makemigrations
+shell:
+	@./manage.py shell_plus
