@@ -1,9 +1,9 @@
 from django.urls import path, include
-from api.views import RegisterCreateAPIView, UserRetrieveAPIView, LoginAPIView
+from api.views import RegisterCreateAPIView, ProfileRetrieveAPIView, LoginAPIView
 
 urlpatterns = [
     path('register/', RegisterCreateAPIView.as_view(), name='register'),
-    path('user/', UserRetrieveAPIView.as_view(), name='user'),
+    path('profile/me/', ProfileRetrieveAPIView.as_view(), name='user'),
     path('login/', LoginAPIView.as_view(), name='login'),
     path('kinerja/', include('apps.kinerja.urls')),
 ]

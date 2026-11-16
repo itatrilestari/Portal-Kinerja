@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from apps.api.models import Profile
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, min_length=8)
@@ -31,6 +32,28 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "email"
         ]
+
+class ProfileSerializer(serializers.ModelSerializer):
+    working_unit = serializers.SerializerMethodField()
+    class Meta:
+        model = Profile
+        fields = [
+            "id",
+            "nik",
+            "name",
+            "phone",
+            "email",
+            "gender",
+            "working_unit"
+        ]
+
+    def get_working_unit(self, obj):
+        if obj.working_unit:
+            return {
+                "name": obj.working_unit.name,
+                "code": obj.working_unit.code,
+                "level": obj.working_unit.level,
+            }
 
 class LoginSerializer(TokenObtainPairSerializer):        
     def validate(self, obj):

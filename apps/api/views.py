@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from api.serializers import RegisterSerializer, UserSerializer, LoginSerializer
+from api.serializers import RegisterSerializer, UserSerializer, LoginSerializer, ProfileSerializer
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import generics, status
@@ -24,12 +24,12 @@ class RegisterCreateAPIView(generics.CreateAPIView):
             "access": str(refresh.access_token)
         }, status=status.HTTP_201_CREATED)
 
-class UserRetrieveAPIView(generics.RetrieveAPIView):
+class ProfileRetrieveAPIView(generics.RetrieveAPIView):
     permission_classes = [IsAuthenticated]
-    serializer_class = UserSerializer
+    serializer_class = ProfileSerializer
 
     def get_object(self):
-        return self.request.user
+        return self.request.user.profile_set.first()
 
 class LoginAPIView(TokenObtainPairView):
     serializer_class = LoginSerializer
