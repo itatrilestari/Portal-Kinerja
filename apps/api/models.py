@@ -23,7 +23,7 @@ class WorkingUnit(TimeStampedUUIDModel):
         return f"{self.code} - {self.name}"
 
 class Log(TimeStampedUUIDModel):
-    profile = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     action = models.CharField(null=True, blank=True)
     message = models.TextField(null=True, blank=True)
 
@@ -50,3 +50,11 @@ class ExportJob(TimeStampedUUIDModel):
     file = models.FileField(upload_to="exports/", blank=True, null=True)
     error_message = models.TextField(blank=True, null=True)
     requested_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+
+class Profile(TimeStampedUUIDModel):
+    name = models.CharField(max_length=255, blank=True, null=True)
+    nik = models.CharField(max_length=255, blank=True, null=True)
+    phone = models.CharField(max_length=255, blank=True, null=True)
+    email = models.CharField(max_length=255, blank=True, null=True)
+    gender = models.CharField(max_length=255, blank=True, null=True)
+    working_unit = models.ForeignKey(WorkingUnit, on_delete=models.CASCADE, null=True, blank=True)
