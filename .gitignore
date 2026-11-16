@@ -1,10 +1,7 @@
-# Local settings
 config/local_settings.py
-
-# Python cache
 __pycache__/
 *.py[cod]
-
-# Virtual environment
+*.pyc
 venv/
 .env
+cache/*
