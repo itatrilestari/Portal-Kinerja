@@ -58,3 +58,4 @@ class Profile(TimeStampedUUIDModel):
     email = models.CharField(max_length=255, blank=True, null=True)
     gender = models.CharField(max_length=255, blank=True, null=True)
     working_unit = models.ForeignKey(WorkingUnit, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,blank=True, null=True)
