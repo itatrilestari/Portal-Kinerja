@@ -6,7 +6,7 @@ from django.contrib.postgres.fields import ArrayField
 class PerformanceTargets(TimeStampedUUIDModel):
     working_unit = models.ForeignKey(WorkingUnit, null=True, blank=True, on_delete=models.CASCADE, related_name='performance_targets')
     parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='children')
-    year = models.IntegerField()
+    year = models.IntegerField(null=True, blank=True)
     title = models.TextField(blank=True, null=True)
     status = models.CharField(max_length=50)
     logs = models.ManyToManyField(Log, blank=True, related_name="performance_targets")
@@ -32,11 +32,11 @@ class PerformanceIndicators(TimeStampedUUIDModel):
     calculation_method = models.TextField(blank=True, null=True) # cara perhitungan
     calculation_method_detail = models.TextField(blank=True, null=True) # cara perhitungan detail
     period = models.CharField(max_length=255, blank=True, null=True) # periode pelaporan
-    target = models.CharField(max_length=255, blank=True, null=True)
+    target = models.FloatField(blank=True, null=True)
     cascading_method = models.CharField(max_length=255, blank=True, null=True) # metode cascading
     unit = models.CharField(max_length=255, blank=True, null=True) # satuan
     type = models.CharField(max_length=255, blank=True, null=True)
-    year = models.CharField(max_length=255, blank=True, null=True)
+    year = models.IntegerField(null=True, blank=True)
     remaining_breakdown = models.CharField(max_length=255, blank=True, null=True) # sisa breakdown
     approver = ArrayField(models.CharField(max_length=50), blank=True, default=list)
     sequence = models.IntegerField(default=0)
@@ -64,7 +64,7 @@ class PerformanceDocument(TimeStampedUUIDModel):
     category = models.CharField(max_length=255, blank=True, null=True)
     attachment = models.ManyToManyField(Attachment, blank=True, related_name="attachment")
     notes = models.TextField(blank=True, null=True)
-    year = models.CharField(max_length=255, blank=True, null=True)
+    year = models.IntegerField(null=True, blank=True)
     is_public = models.BooleanField(default=False)
 
     def __str__(self):
@@ -72,7 +72,7 @@ class PerformanceDocument(TimeStampedUUIDModel):
     
 class Recommendation(TimeStampedUUIDModel):
     unker = models.ForeignKey(WorkingUnit, on_delete=models.CASCADE, blank=True, null=True)
-    year = models.CharField(max_length=255, blank=True, null=True)
+    year = models.IntegerField(null=True, blank=True)
     instruction = models.TextField(blank=True, null=True)
     approver = ArrayField(models.CharField(max_length=255), blank=True, default=list)
 
