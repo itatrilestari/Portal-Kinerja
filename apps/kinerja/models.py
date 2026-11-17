@@ -9,10 +9,7 @@ class PerformanceTargets(TimeStampedUUIDModel):
     year = models.IntegerField()
     title = models.TextField(blank=True, null=True)
     status = models.CharField(max_length=50)
-    log = models.ForeignKey(Log, on_delete=models.SET_NULL, null=True, blank=True)
-    perspective = models.TextField(blank=True, null=True)
-    activity = models.TextField(blank=True, null=True)
-    crosscutting = models.TextField(blank=True, null=True)
+    logs = models.ManyToManyField(Log, blank=True, related_name="performance_targets")
 
     def __str__(self):
         return self.title
