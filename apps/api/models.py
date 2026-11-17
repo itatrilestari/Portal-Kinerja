@@ -60,3 +60,9 @@ class Profile(TimeStampedUUIDModel):
     gender = models.CharField(max_length=255, blank=True, null=True)
     working_unit = models.ForeignKey(WorkingUnit, on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE,blank=True, null=True)
+
+class Title(TimeStampedUUIDModel):
+    display_title = models.CharField(max_length=255, blank=True, null=True)
+    officer = models.ForeignKey(Profile, on_delete=models.SET_NULL, related_name="title_officer", blank=True, null=True)
+    show = models.BooleanField(default=True)
+    unker = models.ForeignKey(WorkingUnit, on_delete=models.SET_NULL, blank=True, null=True)
