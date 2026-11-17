@@ -25,6 +25,7 @@ class WorkingUnit(TimeStampedUUIDModel):
 class Log(TimeStampedUUIDModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     action = models.CharField(null=True, blank=True)
+    feature_name = models.CharField(null=True, blank=True)
     message = models.TextField(null=True, blank=True)
 
     def __str__(self):
