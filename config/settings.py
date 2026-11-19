@@ -3,6 +3,7 @@ import json
 import os
 from pathlib import Path
 from datetime import timedelta
+from urllib.parse import urlsplit, urlunsplit
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -94,6 +95,44 @@ DATABASES = {
     },
 }
 
+# celery
+CELERY_TASK_ROUTES = {
+    "apps.kinerja.tasks.*": {"queue": "kinerja"}
+}
+
+USE_CELERY = json.loads(os.environ.get("USE_CELERY", "true").lower())
+if USE_CELERY:
+    REDIS_URL = os.getenv("REDIS_URL", "redis://127.0.0.1:6379/0")
+    DB_BROKER_NUMBER = os.environ.get("DB_BROKER_NUMBER", "11")
+    CACHES = {
+        "default": {
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": REDIS_URL,
+            "TIMEOUT": None,
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient"
+            },
+        }
+    }
+
+    SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+    SESSION_CACHE_ALIAS = "default"
+
+    parsed = urlsplit(REDIS_URL)
+    BROKER_URL = urlunsplit(parsed._replace(path=f"/{DB_BROKER_NUMBER}"))
+
+    CELERY_BROKER_URL= BROKER_URL
+    CELERY_ENABLE_UTC = True
+    CELERY_TIMEZONE = "Asia/Jakarta"
+    CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+
+    CELERY_ACCEPT_CONTENT = ["json"]
+    CELERY_TASK_SERIALIZER = "json"
+    CELERY_RESULT_SERIALIZER = "json"
+
+MEDIA_URL = os.environ.get("MEDIA_URL", "/media/")
+MEDIA_ROOT = BASE_DIR / "media"
+
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
 
@@ -120,9 +159,9 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
-USE_I18N = True
+# USE_I18N = True
 
-USE_TZ = True
+# USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
