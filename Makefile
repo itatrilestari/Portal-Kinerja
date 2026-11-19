@@ -6,3 +6,5 @@ makemigrations:
 	@./manage.py makemigrations
 shell:
 	@./manage.py shell_plus
+runworker:
+	@celery -A config worker -l info -Q kinerja
