@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.db import models
 from apps.api.models import TimeStampedUUIDModel, Log, WorkingUnit, Attachment
 from django.contrib.auth.models import User
@@ -58,6 +59,73 @@ class AchievementTarget(TimeStampedUUIDModel):
     tw2 = models.DecimalField(max_digits=30, decimal_places=4, null=True, blank=True)
     tw3 = models.DecimalField(max_digits=30, decimal_places=4, null=True, blank=True)
     tw4 = models.DecimalField(max_digits=30, decimal_places=4, null=True, blank=True)
+
+    def __str__(self):
+        return self.category
+
+    def _get_tw(self, *fields):
+        """Helper: return Decimal values only if all fields are not None."""
+        values = [getattr(self, f) for f in fields]
+        if any(v is None for v in values):
+            return None
+        return [Decimal(v) for v in values]
+
+    # Semester 1
+    def semester_satu_rata_rata(self):
+        #(Tw I + Tw II) / 2
+        vals = self._get_tw('tw1', 'tw2')
+        if vals is None:
+            return None
+        return sum(vals) / Decimal('2')
+
+    def semester_satu_posisi_akhir(self):
+        #Nilai Tw II
+        return Decimal(self.tw2) if self.tw2 is not None else None
+
+    def semester_satu_akumulasi(self):
+        #Tw I + Tw II
+        vals = self._get_tw('tw1', 'tw2')
+        if vals is None:
+            return None
+        return sum(vals)
+
+    # s.d. Triwulan 3
+    def tw_tiga_rata_rata(self):
+        #(Tw I + Tw II + Tw III) / 3
+        vals = self._get_tw('tw1', 'tw2', 'tw3')
+        if vals is None:
+            return None
+        return sum(vals) / Decimal('3')
+
+    def tw_tiga_posisi_akhir(self):
+        #Nilai Tw III
+        return Decimal(self.tw3) if self.tw3 is not None else None
+
+    def tw_tiga_akumulasi(self):
+        #Tw I + Tw II + Tw III
+        vals = self._get_tw('tw1', 'tw2', 'tw3')
+        if vals is None:
+            return None
+        return sum(vals)
+
+    # Semester 2
+    def semester_dua_rata_rata(self):
+        #(Tw I + Tw II + Tw III + Tw IV) / 4
+        vals = self._get_tw('tw1', 'tw2', 'tw3', 'tw4')
+        if vals is None:
+            return None
+        return sum(vals) / Decimal('4')
+
+    def semester_dua_posisi_akhir(self):
+        #Nilai Tw IV
+        return Decimal(self.tw4) if self.tw4 is not None else None
+
+    def semester_dua_akumulasi(self):
+        #Tw I + Tw II + Tw III + Tw IV
+        vals = self._get_tw('tw1', 'tw2', 'tw3', 'tw4')
+        if vals is None:
+            return None
+        return sum(vals)
 
 class PerformanceDocument(TimeStampedUUIDModel):
     unker = models.ForeignKey(WorkingUnit, on_delete=models.CASCADE, blank=True, null=True)
