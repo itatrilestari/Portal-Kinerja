@@ -5,7 +5,8 @@ from apps.kinerja.views import (
     export_tasks_views,
     performance_document_views,
     recommendation_views,
-    performance_tree_views
+    performance_tree_views,
+    log_views
 )
 
 urlpatterns = [
@@ -70,10 +71,10 @@ urlpatterns = [
         path("mindmap/<str:id>/", performance_tree_views.PohonKinerjaMindMapRetrieveAPIView.as_view(), name="pohon-kinerja-mindmap"),
     ])),
 
-    # path('status-pengukuran/', include([
-    #     path("", StatusPengukuranListAPIView.as_view(), name="status-pengukuran-list"),
-    #     path("<str:id>/", StatusPengukuranDetailListAPIView.as_view(), name="status-pengukuran-detail"),
-    # ])),
+    path('log-activity/', include([
+        path('', log_views.LogActivityListAPIView.as_view(), name='log-activity'),
+        path('download/', log_views.DownloadLogActivityRetrieveAPIView.as_view(), name='log-activity-download'),
+    ])),
 
     path('export/<uuid:id>/status/', export_tasks_views.ExportJobStatusAPIView.as_view(), name='export-status'),
 ]

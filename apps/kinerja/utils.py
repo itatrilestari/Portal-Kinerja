@@ -1439,3 +1439,96 @@ def export_rekomendasi_pdf(unker, year):
 
     buffer.seek(0)
     return buffer
+
+def export_log_activity(year):
+    queryset = Log.objects.filter(is_delete=False)
+    if year:
+        queryset = queryset.filter(created_at__year=year)
+
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Sheet1"
+
+    bold_font = Font(bold=True, size=10)
+    
+    center = Alignment(
+        horizontal='center',
+        vertical='center',
+        wrap_text=True
+    )
+
+    left = Alignment(
+        horizontal='left',
+        vertical='top',
+        wrap_text=True
+    )
+
+    normal_font = Font(size=10)
+
+    thin = Side(
+        style='thin',
+        color='000000'
+    )
+
+    border = Border(
+        left=thin,
+        right=thin,
+        top=thin,
+        bottom=thin
+    )
+
+    ws['A1'] = 'Log Aktivitas'
+    ws['A1'].font = bold_font
+    ws['A1'].alignment = center
+    ws.merge_cells('A1:E1')
+
+    ws['A3'] = 'No'
+    ws['B3'] = 'Waktu'
+    ws['B3'] = 'Pengguna'
+    ws['D3'] = 'Tindakan'
+    ws['E3'] = 'Fitur'
+
+    header_cells = [
+        'A3', 'B3', 'C3', 'D3', 'E3',
+    ]
+
+    for cell_name in header_cells:
+        cell = ws[cell_name]
+        cell.font = bold_font
+        cell.alignment = center
+        cell.border = border
+
+    row_num = 4
+    for index, item in enumerate(queryset.iterator(), start=1):
+        ws.cell(row=row_num, column=1, value=index)
+        ws.cell(row=row_num, column=2, value=item.created_at.strftime('%d %B %Y %H:%M:%S'))
+        ws.cell(row=row_num, column=3, value=item.user.profile_set.first().name)
+        ws.cell(row=row_num, column=4, value=item.action)
+        ws.cell(row=row_num, column=5, value=item.feature_name)
+
+        center_columns = [1]
+        
+        for col in range(1, 6):
+            cell = ws.cell(row=row_num, column=col)
+            cell.font = normal_font
+            cell.alignment = center if col in center_columns else left
+            cell.border = border
+
+        row_num += 1
+
+    column_widths = {
+        'A': 8,
+        'B': 25,
+        'C': 30,
+        'D': 60,
+        'E': 20,
+    }
+
+    for column, width in column_widths.items():
+        ws.column_dimensions[column].width = width
+
+    excel_file = BytesIO()
+    wb.save(excel_file)
+    excel_file.seek(0)
+
+    return excel_file
