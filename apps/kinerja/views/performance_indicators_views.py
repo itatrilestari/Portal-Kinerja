@@ -270,7 +270,7 @@ class getIndikatorKinerjaDetailRetrieveUpdateDestroyAPIView(generics.RetrieveUpd
         user = request.user
 
         message = f"[id: {instance.id}]"
-        create_log(user, "Delete", "Performance Indicator", message)
+        create_log(user, "Update", "Performance Indicator", message)
         return Response({
             "message": "Berhasil update status",
             "data": {

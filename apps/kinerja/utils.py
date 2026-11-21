@@ -15,6 +15,8 @@ from openpyxl.styles import (
     PatternFill
 )
 
+from django.db.models import Count, Q
+
 from docx import Document
 from docx.enum.text import WD_BREAK, WD_ALIGN_PARAGRAPH
 from docx.shared import Pt
@@ -22,7 +24,7 @@ from docxtpl import DocxTemplate
 from docxcompose.composer import Composer
 
 from apps.api.models import Log, WorkingUnit
-from apps.kinerja.models import PerformanceIndicators, PerformanceTargets, AchievementTarget
+from apps.kinerja.models import PerformanceIndicators, PerformanceTargets, AchievementTarget, PerformanceDocument
 
 def create_log(user, action, feature_name, message):
     log = Log.objects.create(user=user, action=action, feature_name=feature_name, message=message)
@@ -941,3 +943,168 @@ def generate_capaian_indikator(unker_id, year, tw, unker_nama):
     excel_file.seek(0)
 
     return excel_file
+
+def export_dokumen_kinerja(unker_id, year):
+    data_unker = WorkingUnit.objects.filter(is_delete=False)
+    
+    data_dokumen = PerformanceDocument.objects.none()
+    
+    if unker_id:
+        parent = data_unker.get(id=unker_id)
+        child = data_unker.filter(parent=parent)
+
+        data_dokumen = PerformanceDocument.objects.filter(unker__in=[parent, *child], is_delete=False, year=year).values(
+            'unker__code',
+        ).annotate(
+            pohon_kinerja=Count('id', filter=Q(category='Pohon Kinerja')),
+            renstrai=Count('id', filter=Q(category='Renstra')),
+            renja=Count('id', filter=Q(category='Renja')),
+            pk=Count('id', filter=Q(category='PK')),
+            sk_indikator_kinerja=Count('id', filter=Q(category='SK Indikator Kinerja')),
+            manual_indikator_kinerja=Count('id', filter=Q(category='Manual Indikator Kinerja')),
+            matrix_cascading_mph=Count('id', filter=Q(category='Matrix Cascading / MPH')),
+            rencana_aksi=Count('id', filter=Q(category='Rencana Aksi')),
+            rincian_target_indikator=Count('id', filter=Q(category='Rincian Target Indikator')),
+            laporan_kinerja_tw1=Count('id', filter=Q(category='Laporan Kinerja TW I')),
+            laporan_kinerja_tw2=Count('id', filter=Q(category='Laporan Kinerja TW II')),
+            laporan_kinerja_tw3=Count('id', filter=Q(category='Laporan Kinerja TW III')),
+            laporan_kinerja_tw4=Count('id', filter=Q(category='Laporan Kinerja TW IV')),
+            evaluasi_kinerja_tw1=Count('id', filter=Q(category='Evaluasi Kinerja TW I')),
+            evaluasi_kinerja_tw2=Count('id', filter=Q(category='Evaluasi Kinerja TW II')),
+            evaluasi_kinerja_tw3=Count('id', filter=Q(category='Evaluasi Kinerja TW III')),
+            evaluasi_kinerja_tw4=Count('id', filter=Q(category='Evaluasi Kinerja TW IV')),
+        )
+
+    doc_map = {
+        item["unker__code"]: item
+        for item in data_dokumen
+    }
+    
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Sheet1"
+
+    bold_font = Font(bold=True, size=10)
+    
+    center = Alignment(
+        horizontal='center',
+        vertical='center',
+        wrap_text=True
+    )
+
+    left = Alignment(
+        horizontal='left',
+        vertical='top',
+        wrap_text=True
+    )
+
+    normal_font = Font(size=10)
+
+    thin = Side(
+        style='thin',
+        color='000000'
+    )
+
+    border = Border(
+        left=thin,
+        right=thin,
+        top=thin,
+        bottom=thin
+    )
+
+    ws.merge_cells('A2:A3')
+    ws.merge_cells('B2:B3')
+    ws.merge_cells('C2:C3')
+    ws.merge_cells('D2:D3')
+
+    ws.merge_cells('E2:U2')
+
+    ws['A2'] = 'NO'
+    ws['B2'] = 'LEVEL'
+    ws['C2'] = 'KODE'
+    ws['D2'] = 'UNIT KERJA'
+    ws['E2'] = 'DOKUMEN KINERJA'
+
+    headers = [
+        'Pohon Kinerja',
+        'Renstra',
+        'Renja',
+        'PK',
+        'SK Indikator Kinerja',
+        'Manual Indikator Kinerja',
+        'Matriks Cascading / MPH',
+        'Rencana Aksi',
+        'Rincian Target Indikator',
+        'Laporan Kinerja TW I',
+        'Laporan Kinerja TW II',
+        'Laporan Kinerja TW III',
+        'Laporan Kinerja TW IV',
+        'Evaluasi Kinerja TW I',
+        'Evaluasi Kinerja TW II',
+        'Evaluasi Kinerja TW III',
+        'Evaluasi Kinerja TW IV',
+    ]
+
+    for idx, header in enumerate(headers, start=5):
+        ws.cell(row=3, column=idx, value=header)
+
+    for row in ws.iter_rows(min_row=2, max_row=3, min_col=1, max_col=21):
+        for cell in row:
+            cell.font = bold_font
+            cell.alignment = center
+            cell.border = border
+
+    row_num = 4
+
+    for no, unker in enumerate(data_unker.order_by('code'), start=1):
+        item = doc_map.get(unker.code, {})
+
+        ws.cell(row=row_num, column=1, value=no)
+        ws.cell(row=row_num, column=2, value=unker.level)
+        ws.cell(row=row_num, column=3, value=unker.code)
+        ws.cell(row=row_num, column=4, value=unker.name)
+
+        ws.cell(row=row_num, column=5, value=item.get("pohon_kinerja", 0))
+        ws.cell(row=row_num, column=6, value=item.get("renstra", 0))
+        ws.cell(row=row_num, column=7, value=item.get("renja", 0))
+        ws.cell(row=row_num, column=8, value=item.get("pk", 0))
+        ws.cell(row=row_num, column=9, value=item.get("sk_indikator_kinerja", 0))
+        ws.cell(row=row_num, column=10, value=item.get("manual_indikator_kinerja", 0))
+        ws.cell(row=row_num, column=11, value=item.get("matrix_cascading_mph", 0))
+        ws.cell(row=row_num, column=12, value=item.get("rencana_aksi", 0))
+        ws.cell(row=row_num, column=13, value=item.get("rincian_target_indikator", 0))
+        ws.cell(row=row_num, column=14, value=item.get("laporan_kinerja_tw1", 0))
+        ws.cell(row=row_num, column=15, value=item.get("laporan_kinerja_tw2", 0))
+        ws.cell(row=row_num, column=16, value=item.get("laporan_kinerja_tw3", 0))
+        ws.cell(row=row_num, column=17, value=item.get("laporan_kinerja_tw4", 0))
+        ws.cell(row=row_num, column=18, value=item.get("evaluasi_kinerja_tw1", 0))
+        ws.cell(row=row_num, column=19, value=item.get("evaluasi_kinerja_tw2", 0))
+        ws.cell(row=row_num, column=20, value=item.get("evaluasi_kinerja_tw3", 0))
+        ws.cell(row=row_num, column=21, value=item.get("evaluasi_kinerja_tw4", 0))
+
+        center_columns = [1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
+        
+        for col in range(1, 22):
+            cell = ws.cell(row=row_num, column=col)
+            cell.font = normal_font
+            cell.alignment = center if col in center_columns else left
+            cell.border = border
+        row_num += 1
+
+    for col in range(1, ws.max_column + 1):
+        header_1 = ws.cell(row=2, column=col).value
+        header_2 = ws.cell(row=3, column=col).value
+
+        max_length = max(
+            len(str(header_1 or '')),
+            len(str(header_2 or ''))
+        )
+
+        column_letter = get_column_letter(col)
+
+        ws.column_dimensions[column_letter].width = max_length + 5
+
+    virtual_workbook = BytesIO()
+    wb.save(virtual_workbook)
+    virtual_workbook.seek(0)
+    return virtual_workbook

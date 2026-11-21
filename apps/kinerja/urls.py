@@ -2,7 +2,8 @@ from django.urls import path, include
 from apps.kinerja.views import (
     performance_targets_views,
     performance_indicators_views,
-    export_tasks_views
+    export_tasks_views,
+    performance_document_views
 )
 
 urlpatterns = [
@@ -34,6 +35,14 @@ urlpatterns = [
         path('<uuid:id>/update-prioritas/', performance_indicators_views.PerformanceIndicatorUpdatePrioritas.as_view(), name='indikator-kinerja-update-prioritas'),
     ])),
 
-    #Export Status
+    path('dokumen-kinerja/', include([
+        path('', performance_document_views.PerformanceDocumentSummaryListAPIView.as_view(), name='dokumen-kinerja-list'),
+        path('download/', performance_document_views.PerformanceSummaryDownloadListAPIView.as_view(), name='dokumen-kinerja-list-download'),
+        path('create/', performance_document_views.PerformanceDocumentCreateAPIView.as_view(), name='dokumen-kinerja-create'),
+        path('detail/', performance_document_views.PerformanceDocumentListAPIView.as_view(), name='dokumen-kinerja-detail'),
+        path('<uuid:id>/', performance_document_views.PerformanceDocumentRetrieveUpdateDestroyAPIView.as_view(), name='dokumen-kinerja'),
+        path('download-attachment/', performance_document_views.DownloadAttachmentListAPIView.as_view(), name='download-attachment'),
+    ])),
+
     path('export/<uuid:id>/status/', export_tasks_views.ExportJobStatusAPIView.as_view(), name='export-status'),
 ]

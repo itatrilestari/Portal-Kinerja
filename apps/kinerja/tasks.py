@@ -127,3 +127,27 @@ def generate_capaian_indicator(job_id, unker_id, year, tw, unker_nama):
         job.error_message = str(e)
         job.save(update_fields=["status", "error_message"])
         raise
+
+# performance document
+@shared_task
+def generate_performance_document(job_id, unker_id, year):
+    job = ExportJob.objects.filter(id=job_id).first()
+
+    try:
+        job.status = "processing"
+        job.save(update_fields=["status"])
+
+        export_doc = export_dokumen_kinerja(unker_id, year)
+        file_bytes = export_doc.getvalue()
+        
+        if file_bytes:
+            filename=f"DOKUMEN_KINERJA_{year}.xlsx"
+            job.file.save(filename, ContentFile(file_bytes), save=False)
+            job.status = "success"
+            job.save(update_fields=["status", "file"])
+
+    except Exception as e:
+        job.status = "failed"
+        job.error_message = str(e)
+        job.save(update_fields=["status", "error_message"])
+        raise
