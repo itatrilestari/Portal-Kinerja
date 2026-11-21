@@ -135,40 +135,6 @@ class IndikatorOptionListAPIView(generics.ListAPIView):
 
         return queryset.order_by('created_at')
     
-# class getUnitKerjaListAPIView(generics.ListAPIView):
-#     serializer_class = UnitKerjaListSerializer
-#     permission_classes = [IsAuthenticated]
-#     pagination_class = CustomPagination
-
-#     def list(self, request, *args, **kwargs):
-#         get_limit = request.query_params.get("limit")
-#         queryset = self.get_queryset()
-#         if get_limit:
-#             limit = get_limit
-#         else:
-#             limit = 999
-#         pagination = CustomPagination()
-#         paginated_queryset = pagination.paginate_queryset(queryset, request)
-#         serializer = self.get_serializer(paginated_queryset, many=True)
-#         response = pagination.get_paginated_response(serializer.data)
-#         return response
-
-#     def get_queryset(self):
-#         get_level = self.request.query_params.get("level")
-#         get_code = self.request.query_params.get("code")
-#         # get_search = self.request.query_params.get("search")
-#         queryset = UnitKerja.objects.filter(is_delete=False)
-#         if get_level:
-#             queryset = queryset.filter(unit_kerja_level=get_level)
-        
-#         if get_code:
-#             queryset = queryset.filter(unit_kerja_kode=get_code)
-
-#         # if get_search:
-#         #     queryset = queryset.filter(unit_kerja_nama_icontains=get_search)
-
-#         return queryset.order_by('order')
-    
 class getIndikatorKinerjaSummaryListAPIView(generics.ListAPIView):
     serializer_class = IndikatorKinerjaSummarySerializer
     permission_classes = [IsAuthenticated]

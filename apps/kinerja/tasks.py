@@ -151,3 +151,73 @@ def generate_performance_document(job_id, unker_id, year):
         job.error_message = str(e)
         job.save(update_fields=["status", "error_message"])
         raise
+
+# recommendation and resolution
+@shared_task
+def generate_recommendation_summary(job_id, unker_id, year):
+    job = ExportJob.objects.filter(id=job_id).first()
+
+    try:
+        job.status = "processing"
+        job.save(update_fields=["status"])
+
+        export_doc = export_rekomendasi_summary(unker_id, year)
+        file_bytes = export_doc.getvalue()
+        
+        if file_bytes:
+            filename=f"REKAP_REKOMENDASI_{year}.xlsx"
+            job.file.save(filename, ContentFile(file_bytes), save=False)
+            job.status = "success"
+            job.save(update_fields=["status", "file"])
+
+    except Exception as e:
+        job.status = "failed"
+        job.error_message = str(e)
+        job.save(update_fields=["status", "error_message"])
+        raise
+
+@shared_task
+def generate_recommendation_excel(job_id, unker_id, year):
+    job = ExportJob.objects.filter(id=job_id).first()
+
+    try:
+        job.status = "processing"
+        job.save(update_fields=["status"])
+
+        export_doc = export_rekomendasi_excel(unker_id, year)
+        file_bytes = export_doc.getvalue()
+        
+        if file_bytes:
+            filename=f"LAPORAN_REKOMENDASI_{year}.xlsx"
+            job.file.save(filename, ContentFile(file_bytes), save=False)
+            job.status = "success"
+            job.save(update_fields=["status", "file"])
+
+    except Exception as e:
+        job.status = "failed"
+        job.error_message = str(e)
+        job.save(update_fields=["status", "error_message"])
+        raise
+
+@shared_task
+def generate_recommendation_pdf(job_id, unker_id, year):
+    job = ExportJob.objects.filter(id=job_id).first()
+
+    try:
+        job.status = "processing"
+        job.save(update_fields=["status"])
+
+        export_doc = export_rekomendasi_pdf(unker_id, year)
+        file_bytes = export_doc.getvalue()
+        
+        if file_bytes:
+            filename=f"LAPORAN_REKOMENDASI_{year}.pdf"
+            job.file.save(filename, ContentFile(file_bytes), save=False)
+            job.status = "success"
+            job.save(update_fields=["status", "file"])
+
+    except Exception as e:
+        job.status = "failed"
+        job.error_message = str(e)
+        job.save(update_fields=["status", "error_message"])
+        raise

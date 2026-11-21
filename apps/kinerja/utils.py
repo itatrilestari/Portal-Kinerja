@@ -23,8 +23,17 @@ from docx.shared import Pt
 from docxtpl import DocxTemplate
 from docxcompose.composer import Composer
 
+from reportlab.lib.pagesizes import A4, landscape
+from reportlab.lib.units import mm, cm
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.enums import TA_CENTER, TA_LEFT
+from reportlab.lib.colors import HexColor
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+from reportlab.pdfbase.pdfmetrics import stringWidth
+
 from apps.api.models import Log, WorkingUnit
-from apps.kinerja.models import PerformanceIndicators, PerformanceTargets, AchievementTarget, PerformanceDocument
+from apps.kinerja.models import PerformanceIndicators, PerformanceTargets, AchievementTarget, PerformanceDocument, Recommendation, Resolution
 
 def create_log(user, action, feature_name, message):
     log = Log.objects.create(user=user, action=action, feature_name=feature_name, message=message)
@@ -1108,3 +1117,325 @@ def export_dokumen_kinerja(unker_id, year):
     wb.save(virtual_workbook)
     virtual_workbook.seek(0)
     return virtual_workbook
+
+def export_rekomendasi_summary(unker, year):
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Sheet1"
+
+    bold_font = Font(bold=True, size=10)
+    
+    center = Alignment(
+        horizontal='center',
+        vertical='top',
+        wrap_text=True
+    )
+
+    left = Alignment(
+        horizontal='left',
+        vertical='top',
+        wrap_text=True
+    )
+
+    normal_font = Font(size=10)
+
+    thin = Side(
+        style='thin',
+        color='000000'
+    )
+
+    border = Border(
+        left=thin,
+        right=thin,
+        top=thin,
+        bottom=thin
+    )
+
+    
+    headers = [
+        "No",
+        "Level",
+        "Unit Kerja",
+        "Tahun",
+        "Jml Rekomendasi",
+        "Jml TL",
+        "Tuntas",
+        "Belum Tuntas"
+    ]
+
+    start_col = 1
+
+    for index, title in enumerate(headers):
+        cell = ws.cell(row=1, column=start_col + index)
+        cell.value = title
+        cell.font = bold_font
+        cell.alignment = center
+        cell.border = border
+
+    for col, header in enumerate(headers, start=1):
+        ws.cell(row=1, column=col).value = header
+
+    row = 2
+
+    unker = WorkingUnit.objects.get(id=unker, is_delete=False)
+
+    child = WorkingUnit.objects.filter(parent=unker, is_delete=False)
+
+    unker_all = WorkingUnit.objects.filter(id__in=[unker.id, *child.values_list('id', flat=True)])
+
+    for no, u in enumerate(unker_all, start=1):
+        rekomendasi = Recommendation.objects.filter(unker_id__code=u.code, is_delete=False, year=year).order_by('-updated_at')
+
+        resolution =  Resolution.objects.filter(
+            recommendation_id__in=rekomendasi,
+            is_delete=False
+        ).aggregate(
+            jumlah_tindak_lanjut=Count("id"),
+            jumlah_tuntas=Count("id", filter=Q(status="Tuntas")),
+            jumlah_on_progress=Count("id", filter=Q(status="On Progress")),
+        )
+
+        ws.cell(row=row, column=1).value = no
+        ws.cell(row=row, column=2).value = u.level
+        ws.cell(row=row, column=3).value = u.name
+        ws.cell(row=row, column=4).value = year
+        ws.cell(row=row, column=5).value = rekomendasi.count()
+        ws.cell(row=row, column=6).value = resolution["jumlah_tindak_lanjut"]
+        ws.cell(row=row, column=7).value = resolution["jumlah_tuntas"]
+        ws.cell(row=row, column=8).value = resolution["jumlah_on_progress"]
+
+        center_columns = [1, 2, 4, 5, 6, 7, 8]
+        
+        for col in range(1, 9):
+            cell = ws.cell(row=row, column=col)
+            cell.font = normal_font
+            cell.alignment = center if col in center_columns else left
+            cell.border = border
+
+        row += 1
+
+    for col in range(1, ws.max_column + 1):
+        header = ws.cell(row=1, column=col).value
+
+        max_length = len(str(header or ''))
+
+        column_letter = get_column_letter(col)
+
+        ws.column_dimensions[column_letter].width = max_length + 5
+
+    excel_file = BytesIO()
+    wb.save(excel_file)
+    excel_file.seek(0)
+
+    return excel_file
+
+def export_rekomendasi_excel(unker, year):
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Sheet1"
+
+    bold_font = Font(bold=True, size=10)
+    
+    center = Alignment(
+        horizontal='center',
+        vertical='top',
+        wrap_text=True
+    )
+
+    left = Alignment(
+        horizontal='left',
+        vertical='top',
+        wrap_text=True
+    )
+
+    normal_font = Font(size=10)
+
+    thin = Side(
+        style='thin',
+        color='000000'
+    )
+
+    border = Border(
+        left=thin,
+        right=thin,
+        top=thin,
+        bottom=thin
+    )
+
+    headers = [
+        "No",
+        "Bagian",
+        "Tahun",
+        "Rekomendasi",
+        "Tindak Lanjut",
+        "Link Data Dukung"
+    ]
+
+    start_col = 1
+
+    for index, title in enumerate(headers):
+        cell = ws.cell(row=1, column=start_col + index)
+        cell.value = title
+        cell.font = bold_font
+        cell.alignment = center
+        cell.border = border
+
+    for col, header in enumerate(headers, start=1):
+        ws.cell(row=1, column=col).value = header
+
+    row = 2
+
+    unker = WorkingUnit.objects.get(id=unker, is_delete=False)
+
+    rekomendasi = Recommendation.objects.filter(unker=unker, year=year).order_by('-updated_at')
+
+    for no, r in enumerate(rekomendasi, start=1):
+        resolutions =  Resolution.objects.filter(
+            recommendation_id=r,
+            is_delete=False
+        )
+
+        actions = "\n".join(
+            f"- {res.action}"
+            for res in resolutions
+            if res.action
+        )
+
+        urls = "\n".join(
+            f"- {res.url}"
+            for res in resolutions
+            if res.url
+        )
+
+        ws.cell(row=row, column=1).value = no
+        ws.cell(row=row, column=2).value = r.unker.name
+        ws.cell(row=row, column=3).value = year
+        ws.cell(row=row, column=4).value = r.instruction
+        ws.cell(row=row, column=5).value = actions
+        ws.cell(row=row, column=6).value = urls
+
+        center_columns = [1, 3]
+        
+        for col in range(1, 7):
+            cell = ws.cell(row=row, column=col)
+            cell.font = normal_font
+            cell.alignment = center if col in center_columns else left
+            cell.border = border
+
+        row += 1
+
+    for col in range(1, ws.max_column + 1):
+        header = ws.cell(row=1, column=col).value
+
+        max_length = len(str(header or ''))
+
+        column_letter = get_column_letter(col)
+
+        ws.column_dimensions[column_letter].width = max_length + 5
+
+    excel_file = BytesIO()
+    wb.save(excel_file)
+    excel_file.seek(0)
+
+    return excel_file
+
+def export_rekomendasi_pdf(unker, year):
+    buffer = BytesIO()
+
+    doc = SimpleDocTemplate(
+        buffer,
+        pagesize=landscape(A4),
+        leftMargin=15 * mm,
+        rightMargin=15 * mm,
+        topMargin=12 * mm,
+        bottomMargin=12 * mm,
+        title="Laporan Rekomendasi",
+    )
+    styles = getSampleStyleSheet()
+
+    data = [[
+        "No",
+        "Bagian",
+        "Tahun",
+        "Rekomendasi",
+        "Tindak Lanjut",
+        "Link Data Dukung",
+    ]]
+
+    unker = WorkingUnit.objects.get(
+        id=unker,
+        is_delete=False
+    )
+
+    rekomendasi = Recommendation.objects.filter(
+        unker_id=unker,
+        year=year
+    ).order_by('-updated_at')
+
+    for no, r in enumerate(rekomendasi, start=1):
+        resolutions = Resolution.objects.filter(
+            recommendation_id=r,
+            is_delete=False
+        )
+
+        actions = "<br/>".join(
+            f"• {res.action}"
+            for res in resolutions
+            if res.action
+        )
+
+        urls = "<br/>".join(
+            f"• {res.url}"
+            for res in resolutions
+            if res.url
+        )
+
+        body_style = ParagraphStyle(
+            "Body",
+            parent=styles["BodyText"],
+            fontName="Helvetica",
+            fontSize=9,
+            leading=12,
+            alignment=0,
+            wordWrap="CJK",
+        )
+
+        data.append([
+            Paragraph(str(no), body_style),
+            Paragraph(r.unker.name, body_style),
+            Paragraph(str(year), body_style),
+            Paragraph(r.instruction, body_style),
+            Paragraph(actions, body_style),
+            Paragraph(urls, body_style),
+        ])
+
+    table = Table(
+        data,
+        colWidths=[
+            1*cm,   # No
+            4*cm,   # Bagian
+            2*cm,   # Tahun
+            7*cm,   # Rekomendasi
+            7*cm,   # Tindak Lanjut
+            6*cm    # Link
+        ]
+    )
+
+    table.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, 0), colors.grey),
+        ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+
+        ("GRID", (0, 0), (-1, -1), 1, colors.black),
+        ("BOX", (0, 0), (-1, -1), 1, colors.black),
+
+        ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+        ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+        ("VALIGN", (0, 0), (-1, -1), "TOP"),
+
+        ("BOTTOMPADDING", (0, 0), (-1, 0), 8),
+    ]))
+
+    doc.build([table])
+
+    buffer.seek(0)
+    return buffer

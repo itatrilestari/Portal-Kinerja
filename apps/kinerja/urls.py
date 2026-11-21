@@ -3,7 +3,8 @@ from apps.kinerja.views import (
     performance_targets_views,
     performance_indicators_views,
     export_tasks_views,
-    performance_document_views
+    performance_document_views,
+    recommendation_views
 )
 
 urlpatterns = [
@@ -42,6 +43,23 @@ urlpatterns = [
         path('detail/', performance_document_views.PerformanceDocumentListAPIView.as_view(), name='dokumen-kinerja-detail'),
         path('<uuid:id>/', performance_document_views.PerformanceDocumentRetrieveUpdateDestroyAPIView.as_view(), name='dokumen-kinerja'),
         path('download-attachment/', performance_document_views.DownloadAttachmentListAPIView.as_view(), name='download-attachment'),
+    ])),
+
+    path('rekomendasi/', include([
+        path('', recommendation_views.RecommendationListAPIView.as_view(), name='list-rekomendasi'),
+        path('download/excel/', recommendation_views.DownloadRekomendasiExcelRetrieveAPIView.as_view(), name='download-rekomendasi-excel'),
+        path('download/pdf/', recommendation_views.DownloadRekomendasiPdfRetrieveAPIView.as_view(), name='download-rekomendasi-pdf'),
+        path('summary/', recommendation_views.RecommendationSummaryListAPIView.as_view(), name='rekomendasi-summary'),
+        path('summary/download/', recommendation_views.DownloadSummaryRetrieveAPIView.as_view(), name='rekomendasi-summary-download'),
+        path('create/', recommendation_views.RecommendationCreateAPIView.as_view(), name='rekomendasi-create'),
+        path('create/rekomendasi/', recommendation_views.RecommendationCreateRekomendasiAPIView.as_view(), name='rekomendasi-create'),
+        path('<uuid:id>/', recommendation_views.RecommendationRetrieveUpdateDestroyAPIView.as_view(), name='rekomendasi-detail'),
+        path('tindak-lanjut/', recommendation_views.TindakLanjutList.as_view(), name='list-tindak-lanjut'),
+        path('action/', recommendation_views.ActionResolutionCreateAPIView.as_view(), name='action-tindak-lanjut'),
+        path('need-verification/', recommendation_views.getNeedVerificationListAPIView.as_view(), name='action-tindak-lanjut'),
+        path('dialog-history/', recommendation_views.getDialogHistoryResolutionListAPIView.as_view(), name='action-tindak-lanjut'),
+        path('<uuid:id>/delete/tindak-lanjut/', recommendation_views.ResolutionDestroyAPIView.as_view(), name='delete-tindak-lanjut'),
+        path('tindak-lanjut/<uuid:id>/update/notification/', recommendation_views.TindakLanjutUpdateNotification.as_view(), name='update-notification-tindak-lanjut'),
     ])),
 
     path('export/<uuid:id>/status/', export_tasks_views.ExportJobStatusAPIView.as_view(), name='export-status'),
