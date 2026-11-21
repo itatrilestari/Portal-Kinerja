@@ -1,6 +1,6 @@
-# Base Code Django REST Framework
+# Portal Kinerja
 
-Base Code Django merupakan template dasar untuk membangun aplikasi backend menggunakan **Python** dan **Django REST Framework**. Repository ini menyediakan konfigurasi awal project, autentikasi berbasis JWT, serta integrasi database PostgreSQL untuk mempermudah pengembangan aplikasi selanjutnya.
+Portal Kinerja adalah sistem manajemen kinerja yang digunakan untuk mengelola Indikator Kinerja, Target, Capaian, Realisasi Capaian, dan Evaluasi program kerja untuk setiap unit kerja pada suatu Organisasi.
 
 ## Tech Stack
 
@@ -17,7 +17,7 @@ Ikuti langkah-langkah berikut untuk menjalankan project di lingkungan lokal.
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/itatrilestari/Base-Code-Django.git
+git clone https://github.com/itatrilestari/Base-Code-Django.git](https://github.com/itatrilestari/Portal-Kinerja.git
 cd Base-Code-Django
 ```
 
@@ -47,6 +47,14 @@ Atau menggunakan Django management command:
 
 ```bash
 python manage.py migrate
+```
+
+### 6. Jalankan Data Initial
+
+Terdapat data dummy pada `seed_data`. Untuk menjalankannya, jalankan:
+
+```bash
+./manage.py seed_data
 ```
 
 ### 5. Run Development Server
