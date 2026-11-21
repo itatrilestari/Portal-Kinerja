@@ -4,7 +4,8 @@ from apps.kinerja.views import (
     performance_indicators_views,
     export_tasks_views,
     performance_document_views,
-    recommendation_views
+    recommendation_views,
+    performance_tree_views
 )
 
 urlpatterns = [
@@ -61,6 +62,18 @@ urlpatterns = [
         path('<uuid:id>/delete/tindak-lanjut/', recommendation_views.ResolutionDestroyAPIView.as_view(), name='delete-tindak-lanjut'),
         path('tindak-lanjut/<uuid:id>/update/notification/', recommendation_views.TindakLanjutUpdateNotification.as_view(), name='update-notification-tindak-lanjut'),
     ])),
+
+    path('pohon-kinerja/', include([
+        path("", performance_tree_views.PohonKinerjaListAPIView.as_view(), name="pohon-kinerja-list"),
+        path("<str:id>/", performance_tree_views.PohonKinerjaDetailRetrieveAPIView.as_view(), name="pohon-kinerja-detail"),
+        path("<str:id>/cascading/", performance_tree_views.PohonKinerjaCascadingListAPIView.as_view(), name="pohon-kinerja-cascading"),
+        path("mindmap/<str:id>/", performance_tree_views.PohonKinerjaMindMapRetrieveAPIView.as_view(), name="pohon-kinerja-mindmap"),
+    ])),
+
+    # path('status-pengukuran/', include([
+    #     path("", StatusPengukuranListAPIView.as_view(), name="status-pengukuran-list"),
+    #     path("<str:id>/", StatusPengukuranDetailListAPIView.as_view(), name="status-pengukuran-detail"),
+    # ])),
 
     path('export/<uuid:id>/status/', export_tasks_views.ExportJobStatusAPIView.as_view(), name='export-status'),
 ]
