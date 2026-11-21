@@ -86,6 +86,31 @@ JWT menyediakan dua jenis token:
 - **Access Token:** Digunakan untuk mengakses endpoint API yang membutuhkan autentikasi.
 - **Refresh Token:** Digunakan untuk mendapatkan access token baru ketika access token kedaluwarsa.
 
+## Dokumentasi API
+
+Untuk mencoba dan menguji endpoint aplikasi, silakan unduh Postman Collection melalui file berikut:
+
+`data/postman/Portal Kinerja.postman_collection.json`
+
+### Cara Menggunakan
+
+1. Buka Postman, kemudian import file Collection yang telah diunduh.
+2. Atur variabel `base_url` dengan value berikut:
+
+   ```text
+   http://localhost:8000/api/
+   ```
+
+3. Buka folder **Auth**, kemudian jalankan endpoint **Register** untuk mendapatkan access token.
+4. Salin access token yang diperoleh dari response API.
+5. Masukkan access token pada header Authorization untuk mengakses endpoint yang memerlukan autentikasi dengan format berikut:
+
+   ```http
+   Authorization: Bearer <access_token>
+   ```
+
+6. Setelah berhasil melakukan autentikasi, endpoint API sudah dapat digunakan dan diuji melalui Postman.
+
 ## License
 
 Repository ini dapat digunakan sebagai template dasar untuk pengembangan project backend berbasis Django REST Framework.
