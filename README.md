@@ -17,7 +17,7 @@ Ikuti langkah-langkah berikut untuk menjalankan project di lingkungan lokal.
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/itatrilestari/Base-Code-Django.git](https://github.com/itatrilestari/Portal-Kinerja.git
+git clone https://github.com/itatrilestari/Portal-Kinerja.git
 cd Base-Code-Django
 ```
 
