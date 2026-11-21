@@ -1,0 +1,2515 @@
+{
+	"info": {
+		"_postman_id": "19db4c8e-bcce-417b-a2c1-293d7e5679e6",
+		"name": "Portal Kinerja",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32508102",
+		"_collection_link": "https://itatrilestaris-team.postman.co/workspace/local~3f8c3c7a-92fc-41d8-b6d1-6409a5bc3e9d/collection/32508102-19db4c8e-bcce-417b-a2c1-293d7e5679e6?action=share&source=collection_link&creator=32508102"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"tino\",\n    \"email\": \"tino@gmail.com\",\n    \"password\": \"tino12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}register/",
+							"host": [
+								"{{base_url}}register"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"0001\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}login/",
+							"host": [
+								"{{base_url}}login"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Profile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"ita\",\n    \"email\": \"ita@gmail.com\",\n    \"password\": \"ita12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}profile/me/",
+							"host": [
+								"{{base_url}}profile"
+							],
+							"path": [
+								"me",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Performance Targets",
+			"item": [
+				{
+					"name": "List",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/performance-targets/?working_unit_id=caef0684-149a-4f77-bacf-84f85532770f&status=Digunakan&year=2026",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"performance-targets",
+								""
+							],
+							"query": [
+								{
+									"key": "working_unit_id",
+									"value": "caef0684-149a-4f77-bacf-84f85532770f"
+								},
+								{
+									"key": "status",
+									"value": "Digunakan"
+								},
+								{
+									"key": "year",
+									"value": "2026"
+								},
+								{
+									"key": "search",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"working_unit_id\": \"caef0684-149a-4f77-bacf-84f85532770f\",\n    \"parent_id\": \"ca599dda-56f8-4e94-a2f8-c63fff526ae1\",\n    \"year\": \"2026\",\n    \"title\": \"Terlindunginya Kelestarian Laut\",\n    \"status\": \"Digunakan\" // Digunakan atau Tidak Digunakan\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/performance-targets/",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"performance-targets",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"Tidak Digunakan\" // Digunakan atau Tidak Digunakan\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/performance-targets/ca599dda-56f8-4e94-a2f8-c63fff526ae1/",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"performance-targets",
+								"ca599dda-56f8-4e94-a2f8-c63fff526ae1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detail",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/performance-targets/ca599dda-56f8-4e94-a2f8-c63fff526ae1/",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"performance-targets",
+								"ca599dda-56f8-4e94-a2f8-c63fff526ae1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/performance-targets/ca599dda-56f8-4e94-a2f8-c63fff526ae1/",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"performance-targets",
+								"ca599dda-56f8-4e94-a2f8-c63fff526ae1",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admintools",
+			"item": [
+				{
+					"name": "Title",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"unker_id\": \"9966060d-3295-42ca-aef1-34665a99a30f\",\n    \"officer_id\": \"13720ad1-dda5-4554-8619-11ec5805f237\",\n    \"display_title\": \"Operator Direktorat IT\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}admintools/title/",
+									"host": [
+										"{{base_url}}admintools"
+									],
+									"path": [
+										"title",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}admintools/title/",
+									"host": [
+										"{{base_url}}admintools"
+									],
+									"path": [
+										"title",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Performance Indicator",
+			"item": [
+				{
+					"name": "Download",
+					"item": [
+						{
+							"name": "Matriks Target",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"unker\": \"caef0684-149a-4f77-bacf-84f85532770f\",\n    \"year\": 2026\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}kinerja/indikator-kinerja/download/matriks-target/",
+									"host": [
+										"{{base_url}}kinerja"
+									],
+									"path": [
+										"indikator-kinerja",
+										"download",
+										"matriks-target",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Rincian Indikator",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"unker\": [\"caef0684-149a-4f77-bacf-84f85532770f\"],\n    \"year\": 2026,\n    \"unker_nama\": \"Organisasi\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}kinerja/indikator-kinerja/download/rincian-indikator/",
+									"host": [
+										"{{base_url}}kinerja"
+									],
+									"path": [
+										"indikator-kinerja",
+										"download",
+										"rincian-indikator",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Rincian Target",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"unker\": [\"caef0684-149a-4f77-bacf-84f85532770f\"],\n    \"year\": 2026,\n    \"unker_nama\": \"Organisasi\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}kinerja/indikator-kinerja/download/rincian-target/",
+									"host": [
+										"{{base_url}}kinerja"
+									],
+									"path": [
+										"indikator-kinerja",
+										"download",
+										"rincian-target",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Penetapan Indikator",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"unker\": [\"caef0684-149a-4f77-bacf-84f85532770f\"],\n    \"year\": 2026,\n    \"unker_nama\": \"Organisasi\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}kinerja/indikator-kinerja/download/penetapan-indikator/",
+									"host": [
+										"{{base_url}}kinerja"
+									],
+									"path": [
+										"indikator-kinerja",
+										"download",
+										"penetapan-indikator",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Capaian Indikator",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"unker\": \"caef0684-149a-4f77-bacf-84f85532770f\",\n    \"unker_nama\": \"ORGANISASI\",\n    \"year\": \"2026\",\n    \"tw\": \"tw1\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}kinerja/indikator-kinerja/download/capaian-indikator/",
+									"host": [
+										"{{base_url}}kinerja"
+									],
+									"path": [
+										"indikator-kinerja",
+										"download",
+										"capaian-indikator",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-GB,en-US;q=0.9,en;q=0.8,id;q=0.7"
+							},
+							{
+								"key": "cache-control",
+								"value": "no-cache"
+							},
+							{
+								"key": "content-type",
+								"value": "application/json"
+							},
+							{
+								"key": "origin",
+								"value": "http://localhost:5173"
+							},
+							{
+								"key": "pragma",
+								"value": "no-cache"
+							},
+							{
+								"key": "priority",
+								"value": "u=1, i"
+							},
+							{
+								"key": "referer",
+								"value": "http://localhost:5173/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?1"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"Android\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "empty"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "cors"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "cross-site"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Mobile Safari/537.36"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"unker_id\": \"caef0684-149a-4f77-bacf-84f85532770f\",\n  \"title\": \"Indikator Kinerja Pelabuhan Perikanan Nusantara Kejawanan\",\n  \"performance_targets_id\": \"ca599dda-56f8-4e94-a2f8-c63fff526ae1\",\n//   \"parent_id\": \"\",\n//   \"reference_indicator_id\": \"\",\n  \"definition\": \"Mengukur performa unit kerja\",\n  \"data_source\": \"Pusdatin (Aplikasi Satu Data KKP)\",\n  \"validity\": \"Output Kendali Rendah\",\n  \"polarization\": \"Stabilize\",\n  \"lower_limit\": 10,\n  \"upper_limit\": 90,\n  \"perspective\": \"Internal Processes\",\n  \"calculation_data\": \"Rata-rata capaian\",\n  \"state\": \"Tidak Digunakan\",\n  \"calculation_method\": \"Akumulasi\",\n  \"calculation_method_detail\": \"Rata-rata capaian\",\n  \"period\": \"Triwulan\",\n  \"target\": 90,\n  \"cascading_method\": \"Non-Direct\",\n  \"unit\": \"Persen\",\n  \"type\": \"IKU\",\n  \"year\": 2026,\n  \"remaining_breakdown\": \"\",\n  \"cascading\": [\n    \"0106000000\",\n    \"0103000000\",\n    \"0109000000\",\n    \"0106100000\",\n    \"0107000000\",\n    \"0110000000\"\n  ],\n  \"is_priority\": false,\n  \"periodic_targets\": {\n    \"tw1\": \"90.1\",\n    \"tw2\": \"90.2\",\n    \"tw3\": \"90.3\",\n    \"tw4\": \"90.4\"\n  },\n  \"action\": \"Draft\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/indikator-kinerja/",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"indikator-kinerja",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-GB,en-US;q=0.9,en;q=0.8,id;q=0.7"
+							},
+							{
+								"key": "cache-control",
+								"value": "no-cache"
+							},
+							{
+								"key": "content-type",
+								"value": "application/json"
+							},
+							{
+								"key": "origin",
+								"value": "http://localhost:5173"
+							},
+							{
+								"key": "pragma",
+								"value": "no-cache"
+							},
+							{
+								"key": "priority",
+								"value": "u=1, i"
+							},
+							{
+								"key": "referer",
+								"value": "http://localhost:5173/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?1"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"Android\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "empty"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "cors"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "cross-site"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Mobile Safari/537.36"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/indikator-kinerja/",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"indikator-kinerja",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Option",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-GB,en-US;q=0.9,en;q=0.8,id;q=0.7"
+							},
+							{
+								"key": "cache-control",
+								"value": "no-cache"
+							},
+							{
+								"key": "content-type",
+								"value": "application/json"
+							},
+							{
+								"key": "origin",
+								"value": "http://localhost:5173"
+							},
+							{
+								"key": "pragma",
+								"value": "no-cache"
+							},
+							{
+								"key": "priority",
+								"value": "u=1, i"
+							},
+							{
+								"key": "referer",
+								"value": "http://localhost:5173/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?1"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"Android\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "empty"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "cors"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "cross-site"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Mobile Safari/537.36"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/indikator-kinerja/option/?unker=62344165-1d6c-456b-8528-1ef916a314cb",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"indikator-kinerja",
+								"option",
+								""
+							],
+							"query": [
+								{
+									"key": "unker",
+									"value": "62344165-1d6c-456b-8528-1ef916a314cb"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Summary",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-GB,en-US;q=0.9,en;q=0.8,id;q=0.7"
+							},
+							{
+								"key": "cache-control",
+								"value": "no-cache"
+							},
+							{
+								"key": "content-type",
+								"value": "application/json"
+							},
+							{
+								"key": "origin",
+								"value": "http://localhost:5173"
+							},
+							{
+								"key": "pragma",
+								"value": "no-cache"
+							},
+							{
+								"key": "priority",
+								"value": "u=1, i"
+							},
+							{
+								"key": "referer",
+								"value": "http://localhost:5173/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?1"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"Android\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "empty"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "cors"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "cross-site"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Mobile Safari/537.36"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/indikator-kinerja/summary/?unker=caef0684-149a-4f77-bacf-84f85532770f",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"indikator-kinerja",
+								"summary",
+								""
+							],
+							"query": [
+								{
+									"key": "unker",
+									"value": "caef0684-149a-4f77-bacf-84f85532770f"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detail",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-GB,en-US;q=0.9,en;q=0.8,id;q=0.7"
+							},
+							{
+								"key": "cache-control",
+								"value": "no-cache"
+							},
+							{
+								"key": "content-type",
+								"value": "application/json"
+							},
+							{
+								"key": "origin",
+								"value": "http://localhost:5173"
+							},
+							{
+								"key": "pragma",
+								"value": "no-cache"
+							},
+							{
+								"key": "priority",
+								"value": "u=1, i"
+							},
+							{
+								"key": "referer",
+								"value": "http://localhost:5173/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?1"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"Android\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "empty"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "cors"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "cross-site"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Mobile Safari/537.36"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/indikator-kinerja/64b57e1b-7d55-4327-87af-820a5a84e193/",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"indikator-kinerja",
+								"64b57e1b-7d55-4327-87af-820a5a84e193",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-GB,en-US;q=0.9,en;q=0.8,id;q=0.7"
+							},
+							{
+								"key": "cache-control",
+								"value": "no-cache"
+							},
+							{
+								"key": "content-type",
+								"value": "application/json"
+							},
+							{
+								"key": "origin",
+								"value": "http://localhost:5173"
+							},
+							{
+								"key": "pragma",
+								"value": "no-cache"
+							},
+							{
+								"key": "priority",
+								"value": "u=1, i"
+							},
+							{
+								"key": "referer",
+								"value": "http://localhost:5173/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?1"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"Android\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "empty"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "cors"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "cross-site"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Mobile Safari/537.36"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"state\": \"Digunakan\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/indikator-kinerja/:id/",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"indikator-kinerja",
+								":id",
+								""
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64b57e1b-7d55-4327-87af-820a5a84e193"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-GB,en-US;q=0.9,en;q=0.8,id;q=0.7"
+							},
+							{
+								"key": "cache-control",
+								"value": "no-cache"
+							},
+							{
+								"key": "content-type",
+								"value": "application/json"
+							},
+							{
+								"key": "origin",
+								"value": "http://localhost:5173"
+							},
+							{
+								"key": "pragma",
+								"value": "no-cache"
+							},
+							{
+								"key": "priority",
+								"value": "u=1, i"
+							},
+							{
+								"key": "referer",
+								"value": "http://localhost:5173/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?1"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"Android\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "empty"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "cors"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "cross-site"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Mobile Safari/537.36"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/indikator-kinerja/:id/",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"indikator-kinerja",
+								":id",
+								""
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64b57e1b-7d55-4327-87af-820a5a84e193"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Draft",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-GB,en-US;q=0.9,en;q=0.8,id;q=0.7"
+							},
+							{
+								"key": "cache-control",
+								"value": "no-cache"
+							},
+							{
+								"key": "content-type",
+								"value": "application/json"
+							},
+							{
+								"key": "origin",
+								"value": "http://localhost:5173"
+							},
+							{
+								"key": "pragma",
+								"value": "no-cache"
+							},
+							{
+								"key": "priority",
+								"value": "u=1, i"
+							},
+							{
+								"key": "referer",
+								"value": "http://localhost:5173/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?1"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"Android\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "empty"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "cors"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "cross-site"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Mobile Safari/537.36"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"unker_id\": \"caef0684-149a-4f77-bacf-84f85532770f\",\n  \"title\": \"Indikator Kinerja 2\",\n  \"performance_targets_id\": \"ca599dda-56f8-4e94-a2f8-c63fff526ae1\",\n//   \"parent_id\": \"\",\n//   \"reference_indicator_id\": \"\",\n  \"definition\": \"Mengukur performa unit kerja\",\n  \"data_source\": \"Pusdatin (Aplikasi Satu Data KKP)\",\n  \"validity\": \"Output Kendali Rendah\",\n  \"polarization\": \"Stabilize\",\n  \"lower_limit\": 10,\n  \"upper_limit\": 90,\n  \"perspective\": \"Internal Processes\",\n  \"calculation_data\": \"Rata-rata capaian\",\n  \"state\": \"Tidak Digunakan\",\n  \"calculation_method\": \"Akumulasi\",\n  \"calculation_method_detail\": \"Rata-rata capaian\",\n  \"period\": \"Triwulan\",\n  \"target\": 90,\n  \"cascading_method\": \"Non-Direct\",\n  \"unit\": \"Persen\",\n  \"type\": \"IKU\",\n  \"year\": 2026,\n  \"remaining_breakdown\": \"\",\n  \"cascading\": [\n    \"0106000000\",\n    \"0103000000\",\n    \"0109000000\",\n    \"0106100000\",\n    \"0107000000\",\n    \"0110000000\"\n  ],\n  \"is_priority\": false,\n  \"periodic_targets\": {\n    \"tw1\": \"90.1\",\n    \"tw2\": \"90.2\",\n    \"tw3\": \"90.3\",\n    \"tw4\": \"90.4\"\n  },\n  \"action\": \"Draft\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/indikator-kinerja/:id/draft/",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"indikator-kinerja",
+								":id",
+								"draft",
+								""
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "80375e93-4bdb-4760-802c-36d95ddce928"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cascading",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-GB,en-US;q=0.9,en;q=0.8,id;q=0.7"
+							},
+							{
+								"key": "cache-control",
+								"value": "no-cache"
+							},
+							{
+								"key": "content-type",
+								"value": "application/json"
+							},
+							{
+								"key": "origin",
+								"value": "http://localhost:5173"
+							},
+							{
+								"key": "pragma",
+								"value": "no-cache"
+							},
+							{
+								"key": "priority",
+								"value": "u=1, i"
+							},
+							{
+								"key": "referer",
+								"value": "http://localhost:5173/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?1"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"Android\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "empty"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "cors"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "cross-site"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Mobile Safari/537.36"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/indikator-kinerja/cascading/?reference_indicator=64b57e1b-7d55-4327-87af-820a5a84e193&year=2026",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"indikator-kinerja",
+								"cascading",
+								""
+							],
+							"query": [
+								{
+									"key": "reference_indicator",
+									"value": "64b57e1b-7d55-4327-87af-820a5a84e193"
+								},
+								{
+									"key": "year",
+									"value": "2026"
+								},
+								{
+									"key": "search",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Action",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id_indikator\": [\"041b004f-1f13-415e-a8a2-e9eddf958c4b\"],\n    \"action\": \"Approved\",\n    \"komentar\": \"Ok\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/indikator-kinerja/action/",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"indikator-kinerja",
+								"action",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dialog History",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-GB,en-US;q=0.9,en;q=0.8,id;q=0.7"
+							},
+							{
+								"key": "cache-control",
+								"value": "no-cache"
+							},
+							{
+								"key": "content-type",
+								"value": "application/json"
+							},
+							{
+								"key": "origin",
+								"value": "http://localhost:5173"
+							},
+							{
+								"key": "pragma",
+								"value": "no-cache"
+							},
+							{
+								"key": "priority",
+								"value": "u=1, i"
+							},
+							{
+								"key": "referer",
+								"value": "http://localhost:5173/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?1"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"Android\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "empty"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "cors"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "cross-site"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Mobile Safari/537.36"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/indikator-kinerja/dialog-history/",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"indikator-kinerja",
+								"dialog-history",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dialog History Log",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-GB,en-US;q=0.9,en;q=0.8,id;q=0.7"
+							},
+							{
+								"key": "cache-control",
+								"value": "no-cache"
+							},
+							{
+								"key": "content-type",
+								"value": "application/json"
+							},
+							{
+								"key": "origin",
+								"value": "http://localhost:5173"
+							},
+							{
+								"key": "pragma",
+								"value": "no-cache"
+							},
+							{
+								"key": "priority",
+								"value": "u=1, i"
+							},
+							{
+								"key": "referer",
+								"value": "http://localhost:5173/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?1"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"Android\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "empty"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "cors"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "cross-site"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Mobile Safari/537.36"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/indikator-kinerja/dialog-history/log/:id/",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"indikator-kinerja",
+								"dialog-history",
+								"log",
+								":id",
+								""
+							],
+							"query": [
+								{
+									"key": "id_log",
+									"value": "983a0056-6680-48b4-a0d4-d37eac6f72a1",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "983a0056-6680-48b4-a0d4-d37eac6f72a1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Need Approval",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-GB,en-US;q=0.9,en;q=0.8,id;q=0.7"
+							},
+							{
+								"key": "cache-control",
+								"value": "no-cache"
+							},
+							{
+								"key": "content-type",
+								"value": "application/json"
+							},
+							{
+								"key": "origin",
+								"value": "http://localhost:5173"
+							},
+							{
+								"key": "pragma",
+								"value": "no-cache"
+							},
+							{
+								"key": "priority",
+								"value": "u=1, i"
+							},
+							{
+								"key": "referer",
+								"value": "http://localhost:5173/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?1"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"Android\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "empty"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "cors"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "cross-site"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Mobile Safari/537.36"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/indikator-kinerja/need-approval/?unker=caef0684-149a-4f77-bacf-84f85532770f&status=Need Approved&year=2026",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"indikator-kinerja",
+								"need-approval",
+								""
+							],
+							"query": [
+								{
+									"key": "unker",
+									"value": "caef0684-149a-4f77-bacf-84f85532770f"
+								},
+								{
+									"key": "status",
+									"value": "Need Approved"
+								},
+								{
+									"key": "year",
+									"value": "2026"
+								},
+								{
+									"key": "search",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Request Revision",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-GB,en-US;q=0.9,en;q=0.8,id;q=0.7"
+							},
+							{
+								"key": "cache-control",
+								"value": "no-cache"
+							},
+							{
+								"key": "content-type",
+								"value": "application/json"
+							},
+							{
+								"key": "origin",
+								"value": "http://localhost:5173"
+							},
+							{
+								"key": "pragma",
+								"value": "no-cache"
+							},
+							{
+								"key": "priority",
+								"value": "u=1, i"
+							},
+							{
+								"key": "referer",
+								"value": "http://localhost:5173/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?1"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"Android\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "empty"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "cors"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "cross-site"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Mobile Safari/537.36"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/indikator-kinerja/:id/request-revision/",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"indikator-kinerja",
+								":id",
+								"request-revision",
+								""
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64b57e1b-7d55-4327-87af-820a5a84e193"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Notification",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-GB,en-US;q=0.9,en;q=0.8,id;q=0.7"
+							},
+							{
+								"key": "cache-control",
+								"value": "no-cache"
+							},
+							{
+								"key": "content-type",
+								"value": "application/json"
+							},
+							{
+								"key": "origin",
+								"value": "http://localhost:5173"
+							},
+							{
+								"key": "pragma",
+								"value": "no-cache"
+							},
+							{
+								"key": "priority",
+								"value": "u=1, i"
+							},
+							{
+								"key": "referer",
+								"value": "http://localhost:5173/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?1"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"Android\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "empty"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "cors"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "cross-site"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Mobile Safari/537.36"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"notification\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/indikator-kinerja/:id/update-notification/",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"indikator-kinerja",
+								":id",
+								"update-notification",
+								""
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64b57e1b-7d55-4327-87af-820a5a84e193"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Prioritas",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-GB,en-US;q=0.9,en;q=0.8,id;q=0.7"
+							},
+							{
+								"key": "cache-control",
+								"value": "no-cache"
+							},
+							{
+								"key": "content-type",
+								"value": "application/json"
+							},
+							{
+								"key": "origin",
+								"value": "http://localhost:5173"
+							},
+							{
+								"key": "pragma",
+								"value": "no-cache"
+							},
+							{
+								"key": "priority",
+								"value": "u=1, i"
+							},
+							{
+								"key": "referer",
+								"value": "http://localhost:5173/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?1"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"Android\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "empty"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "cors"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "cross-site"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Mobile Safari/537.36"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"is_priority\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/indikator-kinerja/:id/update-prioritas/",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"indikator-kinerja",
+								":id",
+								"update-prioritas",
+								""
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64b57e1b-7d55-4327-87af-820a5a84e193"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Revision",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Testing Edit Need Revision\",\n    \"state\": \"Digunakan\",\n    \"performance_target\": \"ca599dda-56f8-4e94-a2f8-c63fff526ae1\",\n    \"perspective\": \"\",\n    \"validity\": \"Output Kendali Rendah\",\n    \"polarization\": \"Maximize\",\n    \"target\": \"91\",\n    \"unit\": \"Persen\",\n    \"cascading_method\": \"Non-Direct\",\n    \"reference_indicator\": \"\",\n    \"target_berkala\":\n    {\n        \"tw1\": 90.1,\n        \"tw2\": 90.5,\n        \"tw3\": 80.5,\n        \"tw4\": 90.1\n    },\n    \"calculation_method\": \"Rata-rata capaian\",\n    \"year\": \"2028\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/indikator-kinerja/:id/edit-revision/",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"indikator-kinerja",
+								":id",
+								"edit-revision",
+								""
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64b57e1b-7d55-4327-87af-820a5a84e193"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Performance Documents",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}kinerja/dokumen-kinerja/?unker=caef0684-149a-4f77-bacf-84f85532770f&year=2026",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"dokumen-kinerja",
+								""
+							],
+							"query": [
+								{
+									"key": "unker",
+									"value": "caef0684-149a-4f77-bacf-84f85532770f"
+								},
+								{
+									"key": "year",
+									"value": "2026"
+								},
+								{
+									"key": "search",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Download List",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"unker\": \"caef0684-149a-4f77-bacf-84f85532770f\",\n    \"year\": 2026\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/dokumen-kinerja/download/",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"dokumen-kinerja",
+								"download",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "unker",
+									"value": "caef0684-149a-4f77-bacf-84f85532770f",
+									"type": "text"
+								},
+								{
+									"key": "notes",
+									"value": "Renja",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "Renja",
+									"type": "text"
+								},
+								{
+									"key": "year",
+									"value": "2026",
+									"type": "text"
+								},
+								{
+									"key": "attachments",
+									"type": "file",
+									"src": "/home/itatri-lestari/Pictures/black-screen-background.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/dokumen-kinerja/create/",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"dokumen-kinerja",
+								"create",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}kinerja/dokumen-kinerja/detail/?unker=caef0684-149a-4f77-bacf-84f85532770f&category=Renja&year=2026",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"dokumen-kinerja",
+								"detail",
+								""
+							],
+							"query": [
+								{
+									"key": "unker",
+									"value": "caef0684-149a-4f77-bacf-84f85532770f"
+								},
+								{
+									"key": "category",
+									"value": "Renja"
+								},
+								{
+									"key": "year",
+									"value": "2026"
+								},
+								{
+									"key": "search",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detail UUID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}kinerja/dokumen-kinerja/:id/",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"dokumen-kinerja",
+								":id",
+								""
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "ea733dd0-f64f-4264-ae6e-4500daacb018"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "unker",
+									"value": "caef0684-149a-4f77-bacf-84f85532770f",
+									"type": "text"
+								},
+								{
+									"key": "notes",
+									"value": "Renja",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "Renja",
+									"type": "text"
+								},
+								{
+									"key": "year",
+									"value": "2026",
+									"type": "text"
+								},
+								{
+									"key": "attachments",
+									"type": "file",
+									"src": "/home/itatri-lestari/Pictures/black-screen-background.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/dokumen-kinerja/:id/",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"dokumen-kinerja",
+								":id",
+								""
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "ea733dd0-f64f-4264-ae6e-4500daacb018"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{base_url}}kinerja/dokumen-kinerja/:id/",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"dokumen-kinerja",
+								":id",
+								""
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "c8f3d217-8d34-4578-b3a5-00c230964b3a"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Export Task",
+			"item": [
+				{
+					"name": "Export Task",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}kinerja/export/:id/status/",
+							"host": [
+								"{{base_url}}kinerja"
+							],
+							"path": [
+								"export",
+								":id",
+								"status",
+								""
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "f81f18cc-0d1a-429d-bcd0-7c1372077c5a"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
